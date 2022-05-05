@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<script>
+  const SUCCESS_STATUS = "fulfilled"
+  const FAIL_STATUS = "rejected"
+  const PENDING = "pending"
+
+  class MyPromise{
+    status = PENDING
+    value = undefined
+    failReason = undefined
+    constructor(exector) {
+      exector()
+    }
+
+    resolve(value){ // ②
+     this.status = SUCCESS_STATUS
+     this.value = value
+    }
+
+    reject(failReason){ // ②
+     this.status = FAIL_STATUS
+     this.failReason = failReason
+    }
+
+
+
+    then(successFn, failFn){
+      if(this.status === SUCCESS_STATUS){
+        successFn(this.value)
+        return
+      }
+      if(this.status === FAIL_STATUS){
+        failFn(this.failReason)
+        return
+      }
+    }
+  }
+
+
+  // usage 1
+  const p1 = new MyPromise((resolve, reject)=>{
+    const number = Math.random()
+    if(number > 0.5){
+      resolve(number) // ①
+    } else {
+      reject(number) // ①
+    }
+  })
+  p1.then((data1)=>{
+    console.log("data1 大于 0.5", data1);
+  }, (data2)=>{
+    console.log("data2 小于 0.5", data2);
+  })
+</script>
+</body>
+</html>
