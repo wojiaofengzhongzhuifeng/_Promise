@@ -19,19 +19,18 @@
     value = undefined
     failReason = undefined
     constructor(exector) {
-      exector()
+      exector(this.resolve, this.reject)
     }
 
-    resolve(value){ // ②
-     this.status = SUCCESS_STATUS
-     this.value = value
+    resolve = (value)=>{
+      this.status = SUCCESS_STATUS
+      this.value = value
     }
 
-    reject(failReason){ // ②
-     this.status = FAIL_STATUS
-     this.failReason = failReason
+    reject = (failReason)=>{
+      this.status = FAIL_STATUS
+      this.failReason = failReason
     }
-
 
 
     then(successFn, failFn){
@@ -51,9 +50,9 @@
   const p1 = new MyPromise((resolve, reject)=>{
     const number = Math.random()
     if(number > 0.5){
-      resolve(number) // ①
+      resolve(number)
     } else {
-      reject(number) // ①
+      reject(number)
     }
   })
   p1.then((data1)=>{
